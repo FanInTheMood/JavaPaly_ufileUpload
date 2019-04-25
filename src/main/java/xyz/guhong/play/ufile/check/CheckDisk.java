@@ -22,6 +22,13 @@ public class CheckDisk {
 		,"G","H","J","K","L","Z","X","Q","V","B","N","M"
 	};
 	
+	
+	public CheckDisk(String path){
+		initDisk();
+		showCurrDisk();
+		checkU(path);
+	}
+	
 	public void showCurrDisk(){
 		System.out.print("当前存在磁盘：");
 		for(String s : currDisk.keySet()){
@@ -46,7 +53,7 @@ public class CheckDisk {
 	/**
 	 * 检查u盘插入
 	 */
-	public void checkU(){
+	public void checkU(String path){
 		// 死循环检测
 		while(true){
 			for(String s : drives){
@@ -54,7 +61,7 @@ public class CheckDisk {
 				if(f.exists() && currDisk.get(s) == null){
 					currDisk.put(s, true);
 					System.out.println("检测到u盘:"+s);
-					Thread t = new Thread(new UploadThread(s+"://", "ufile"),"UploadThread");
+					Thread t = new Thread(new UploadThread(s+"://", path),"UploadThread");
 					t.start();
 				}
 				// 如果不存在这个盘，则移除它
